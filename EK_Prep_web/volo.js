@@ -204,12 +204,12 @@
     const nc = O.ntcheck ? `<p class="note">${O.ntcheck.read} NOTAM letti su ${O.ntcheck.hdr} dichiarati nel bollettino.</p>` : "";
     return `<h2 class="vp">NOTAM e avvisi</h2>${nc}<input class="inp" id="v-nq" placeholder="Cerca (es. RWY, ILS, GNSS, CLSD)"><div id="v-nl">${Object.keys(by).map((k) => `<details class="vd"><summary><b>${E(k)}</b> \u2013 ${by[k].length}</summary><ul class="vn">${by[k].map((n) => `<li data-x="${E(n.x.toLowerCase())}"><b>${E(n.id)}</b>${n.kind === "gnss" || n.kind === "conflict" ? ' <b class="vbad">' + n.kind + "</b>" : ""} ${E(n.x)}</li>`).join("")}</ul></details>`).join("")}</div>` + ((O.crew_alert || []).length ? `<h3>Crew alert (${O.crew_alert.length})</h3><ul class="vn">${O.crew_alert.map((c) => `<li><b>${E(c.id)}</b> ${E(c.title || "")} \u2013 ${E(c.x)}</li>`).join("")}</ul>` : "");
   }
-  const TABS = [["sum", "Sintesi"], ["dep", "Partenza"], ["arr", "Arrivo"], ["wpt", "Waypoint"], ["map", "Mappa"], ["ntm", "NOTAM"]];
+  const TABS = [["sum", "Sintesi"], ["dep", "Partenza"], ["arr", "Arrivo"], ["paesi", "Paesi / CRAR"], ["wpt", "Waypoint"], ["map", "Mappa 3D"], ["ntm", "NOTAM"]];
   V.render = function(host) {
     host = host || document.getElementById("out");
     if (!host || !V.O) return;
     const mapcard = document.getElementById("mapcard");
-    const body = { sum: pSum, dep: pDep, arr: pArr, wpt: pWpt, ntm: pNotam, map: () => '<div id="v-mapslot"></div>' }[V.tab]();
+    const body = { sum: pSum, dep: pDep, arr: pArr, wpt: pWpt, ntm: pNotam, paesi: () => '<div id="v-paesi"></div>', map: () => '<div id="v-globe"></div><details class="vd"><summary>Mappa 2D</summary><div id="v-mapslot"></div></details>' }[V.tab]();
     host.innerHTML = `<nav class="vtabs">${TABS.map((t) => `<button data-v="${t[0]}" class="${V.tab === t[0] ? "on" : ""}">${t[1]}</button>`).join("")}</nav><div class="vbody">${body}</div><p class="vfoot">${E(V.O.flt)} ${E(V.O.date)} ${E(V.O.dep_iata)}-${E(V.O.dest_iata)} \xB7 OFP ${E(V.O.ofpno)} \xB7 ${E(V.O.reg_d || V.O.reg)} | Strumento di preparazione: OFP, documentazione Emirates e ATC prevalgono.</p>`;
     if (mapcard) {
       if (V.tab === "map") {
@@ -219,6 +219,8 @@
         mapcard.hidden = true;
       }
     }
+    if (V.tab === "paesi" && V.countries) V.countries(host.querySelector("#v-paesi"));
+    if (V.tab === "map" && V.globe) V.globe(host.querySelector("#v-globe"));
     host.querySelectorAll(".vtabs button").forEach((b) => b.onclick = () => {
       V.tab = b.dataset.v;
       V.render(host);
