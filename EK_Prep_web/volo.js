@@ -204,12 +204,20 @@
     const nc = O.ntcheck ? `<p class="note">${O.ntcheck.read} NOTAM letti su ${O.ntcheck.hdr} dichiarati nel bollettino.</p>` : "";
     return `<h2 class="vp">NOTAM e avvisi</h2>${nc}<input class="inp" id="v-nq" placeholder="Cerca (es. RWY, ILS, GNSS, CLSD)"><div id="v-nl">${Object.keys(by).map((k) => `<details class="vd"><summary><b>${E(k)}</b> \u2013 ${by[k].length}</summary><ul class="vn">${by[k].map((n) => `<li data-x="${E(n.x.toLowerCase())}"><b>${E(n.id)}</b>${n.kind === "gnss" || n.kind === "conflict" ? ' <b class="vbad">' + n.kind + "</b>" : ""} ${E(n.x)}</li>`).join("")}</ul></details>`).join("")}</div>` + ((O.crew_alert || []).length ? `<h3>Crew alert (${O.crew_alert.length})</h3><ul class="vn">${O.crew_alert.map((c) => `<li><b>${E(c.id)}</b> ${E(c.title || "")} \u2013 ${E(c.x)}</li>`).join("")}</ul>` : "");
   }
-  const TABS = [["sum", "Sintesi"], ["dep", "Partenza"], ["arr", "Arrivo"], ["paesi", "Paesi / CRAR"], ["wpt", "Waypoint"], ["map", "Mappa 3D"], ["ntm", "NOTAM"]];
+  const TABS0 = [["sum", "Sintesi"], ["dep", "Partenza"], ["arr", "Arrivo"], ["paesi", "Paesi / CRAR"], ["wpt", "Waypoint"], ["map", "Mappa 3D"], ["ntm", "NOTAM"]];
+  let TABS = TABS0;
   V.render = function(host) {
     host = host || document.getElementById("out");
     if (!host || !V.O) return;
     const mapcard = document.getElementById("mapcard");
-    const body = { sum: pSum, dep: pDep, arr: pArr, wpt: pWpt, ntm: pNotam, paesi: () => '<div id="v-paesi"></div>', map: () => '<div id="v-globe"></div><details class="vd"><summary>Mappa 2D</summary><div id="v-mapslot"></div></details>' }[V.tab]();
+    let natHtml = "";
+    try {
+      if (window.NAT && typeof OFP !== "undefined" && OFP && OFP.text) natHtml = NAT.card(OFP.text);
+    } catch (e) {
+    }
+    TABS = natHtml ? [...TABS0.slice(0, 4), ["nat", "NAT-HLA"], ...TABS0.slice(4)] : TABS0;
+    if (V.tab === "nat" && !natHtml) V.tab = "sum";
+    const body = { nat: () => natHtml, sum: () => (natHtml ? '<p class="note"><b>NAT-HLA</b>: questo volo entra nella NAT \u2013 vedi la pagina NAT-HLA (RCL, log-on, controlli, contingenze).</p>' : "") + pSum(), dep: pDep, arr: pArr, wpt: pWpt, ntm: pNotam, paesi: () => '<div id="v-paesi"></div>', map: () => '<div id="v-globe"></div><details class="vd"><summary>Mappa 2D</summary><div id="v-mapslot"></div></details>' }[V.tab]();
     host.innerHTML = `<nav class="vtabs">${TABS.map((t) => `<button data-v="${t[0]}" class="${V.tab === t[0] ? "on" : ""}">${t[1]}</button>`).join("")}</nav><div class="vbody">${body}</div><p class="vfoot">${E(V.O.flt)} ${E(V.O.date)} ${E(V.O.dep_iata)}-${E(V.O.dest_iata)} \xB7 OFP ${E(V.O.ofpno)} \xB7 ${E(V.O.reg_d || V.O.reg)} | Strumento di preparazione: OFP, documentazione Emirates e ATC prevalgono.</p>`;
     if (mapcard) {
       if (V.tab === "map") {

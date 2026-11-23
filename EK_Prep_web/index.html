@@ -1,4 +1,4 @@
-<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>EK Prep</title><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="EK Prep"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="theme-color" content="#14213d"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="icon-192.png"><script>window.EKAPP=true;window.EKVER="20261115-0011";</script><script>(function(){var g="ekprep",a="files";function b(){return new Promise(function(e,n){var t=indexedDB.open(g,1);t.onupgradeneeded=function(){t.result.createObjectStore(a)},t.onsuccess=function(){e(t.result)},t.onerror=function(){n(t.error)}})}function u(e,n){return b().then(function(t){return new Promise(function(r,i){var o=t.transaction(a,e),v=n(o.objectStore(a));o.oncomplete=function(){r(v&&v.result)},o.onerror=function(){i(o.error)},o.onabort=function(){i(o.error||new Error("abort"))}})})}function l(e){return e?e.slice(0,8).arrayBuffer().then(function(n){var t=new DataView(n);if(String.fromCharCode(t.getUint8(0),t.getUint8(1),t.getUint8(2),t.getUint8(3))!=="EKB1")throw new Error("Non \xE8 un file biblioteca EK (.ekb)");var r=t.getUint32(4,!0);return e.slice(8,8+r).text().then(function(i){var o=JSON.parse(i);return{blob:e,dir:o.files,meta:o.meta||{},base:8+r}})}):Promise.resolve(null)}var c=null,s=u("readonly",function(e){return e.get("kb")}).then(l).then(function(e){return c=e,e}).catch(function(){return null});function f(e){return{ok:!1,status:e,json:function(){return Promise.reject(new Error(String(e)))},text:function(){return Promise.reject(new Error(String(e)))}}}window.kbFetch=function(e){return s.then(function(n){if(n){var t=n.dir[e];if(!t)return f(404);var r=n.blob.slice(n.base+t[0],n.base+t[0]+t[1]);return{ok:!0,status:200,json:function(){return r.text().then(JSON.parse)},text:function(){return r.text()}}}return fetch(e).catch(function(){return f(0)})})};function p(e,n){n("Controllo il file\u2026"),l(e).then(function(t){return n("Copio la biblioteca nell\u2019app ("+Math.round(e.size/1e6)+" MB)\u2026"),e.arrayBuffer().then(function(r){var i=new Blob([r],{type:"application/octet-stream"});return u("readwrite",function(o){return o.put(i,"kb")}).then(function(){return t})})}).then(function(t){try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch{}n("Biblioteca caricata ("+(t.meta.built||"")+"). Riavvio\u2026"),setTimeout(function(){location.reload()},700)}).catch(function(t){n("Non riuscito: "+(t&&t.message||t))})}function d(e){var n=document.createElement("input");n.type="file",n.onchange=function(){n.files&&n.files[0]&&p(n.files[0],function(t){e&&(e.textContent=t)})},n.click()}window.EKB={ready:s,chip:function(){return c?"<span>Biblioteca del "+(c.meta.built||"?")+' <a href="#" onclick="EKB.pick(this);return false">aggiorna</a></span>':""},pick:function(e){d(e)},showLoad:function(){var e=document.getElementById("kbstat");if(!(!e||document.getElementById("ekb-load"))){var n=document.createElement("div");n.className="ekb-bar",n.innerHTML='<button id="ekb-load">Carica la biblioteca (EK_biblioteca.ekb)</button><span id="ekb-msg">Una volta sola: scegli il file in File sull\u2019iPad. Resta nell\u2019app, anche offline.</span>',e.parentNode.insertBefore(n,e.nextSibling),document.getElementById("ekb-load").onclick=function(){d(document.getElementById("ekb-msg"))}}}},("serviceWorker"in navigator&&location.protocol==="https:"||location.hostname==="localhost")&&window.addEventListener("load",function(){if(navigator.serviceWorker){navigator.serviceWorker.register("sw.js").then(function(n){function t(r){if(!(!r||document.getElementById("ekb-upd"))){var i=document.createElement("button");i.id="ekb-upd",i.className="ekb-upd",i.textContent="Nuova versione pronta \u2013 tocca per aggiornare",i.onclick=function(){r.postMessage("skipWaiting")},document.body.appendChild(i)}}n.waiting&&navigator.serviceWorker.controller&&t(n.waiting),n.addEventListener("updatefound",function(){var r=n.installing;r&&r.addEventListener("statechange",function(){r.state==="installed"&&navigator.serviceWorker.controller&&t(r)})})}).catch(function(){});var e=!1;navigator.serviceWorker.addEventListener("controllerchange",function(){e||(e=!0,location.reload())})}})})();
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>EK Prep</title><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="EK Prep"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="theme-color" content="#14213d"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="icon-192.png"><script>window.EKGEO="libs/";window.EKAPP=true;window.EKVER="20261123-1459";</script><script>(function(){var g="ekprep",a="files";function b(){return new Promise(function(e,n){var t=indexedDB.open(g,1);t.onupgradeneeded=function(){t.result.createObjectStore(a)},t.onsuccess=function(){e(t.result)},t.onerror=function(){n(t.error)}})}function u(e,n){return b().then(function(t){return new Promise(function(r,i){var o=t.transaction(a,e),v=n(o.objectStore(a));o.oncomplete=function(){r(v&&v.result)},o.onerror=function(){i(o.error)},o.onabort=function(){i(o.error||new Error("abort"))}})})}function l(e){return e?e.slice(0,8).arrayBuffer().then(function(n){var t=new DataView(n);if(String.fromCharCode(t.getUint8(0),t.getUint8(1),t.getUint8(2),t.getUint8(3))!=="EKB1")throw new Error("Non \xE8 un file biblioteca EK (.ekb)");var r=t.getUint32(4,!0);return e.slice(8,8+r).text().then(function(i){var o=JSON.parse(i);return{blob:e,dir:o.files,meta:o.meta||{},base:8+r}})}):Promise.resolve(null)}var c=null,s=u("readonly",function(e){return e.get("kb")}).then(l).then(function(e){return c=e,e}).catch(function(){return null});function f(e){return{ok:!1,status:e,json:function(){return Promise.reject(new Error(String(e)))},text:function(){return Promise.reject(new Error(String(e)))}}}window.kbFetch=function(e){return s.then(function(n){if(n){var t=n.dir[e];if(!t)return f(404);var r=n.blob.slice(n.base+t[0],n.base+t[0]+t[1]);return{ok:!0,status:200,json:function(){return r.text().then(JSON.parse)},text:function(){return r.text()}}}return fetch(e).catch(function(){return f(0)})})};function p(e,n){n("Controllo il file\u2026"),l(e).then(function(t){return n("Copio la biblioteca nell\u2019app ("+Math.round(e.size/1e6)+" MB)\u2026"),e.arrayBuffer().then(function(r){var i=new Blob([r],{type:"application/octet-stream"});return u("readwrite",function(o){return o.put(i,"kb")}).then(function(){return t})})}).then(function(t){try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch{}n("Biblioteca caricata ("+(t.meta.built||"")+"). Riavvio\u2026"),setTimeout(function(){location.reload()},700)}).catch(function(t){n("Non riuscito: "+(t&&t.message||t))})}function d(e){var n=document.createElement("input");n.type="file",n.onchange=function(){n.files&&n.files[0]&&p(n.files[0],function(t){e&&(e.textContent=t)})},n.click()}window.EKB={ready:s,chip:function(){return c?"<span>Biblioteca del "+(c.meta.built||"?")+' <a href="#" onclick="EKB.pick(this);return false">aggiorna</a></span>':""},pick:function(e){d(e)},showLoad:function(){var e=document.getElementById("kbstat");if(!(!e||document.getElementById("ekb-load"))){var n=document.createElement("div");n.className="ekb-bar",n.innerHTML='<button id="ekb-load">Carica la biblioteca (EK_biblioteca.ekb)</button><span id="ekb-msg">Una volta sola: scegli il file in File sull\u2019iPad. Resta nell\u2019app, anche offline.</span>',e.parentNode.insertBefore(n,e.nextSibling),document.getElementById("ekb-load").onclick=function(){d(document.getElementById("ekb-msg"))}}}},("serviceWorker"in navigator&&location.protocol==="https:"||location.hostname==="localhost")&&window.addEventListener("load",function(){if(navigator.serviceWorker){navigator.serviceWorker.register("sw.js").then(function(n){function t(r){if(!(!r||document.getElementById("ekb-upd"))){var i=document.createElement("button");i.id="ekb-upd",i.className="ekb-upd",i.textContent="Nuova versione pronta \u2013 tocca per aggiornare",i.onclick=function(){r.postMessage("skipWaiting")},document.body.appendChild(i)}}n.waiting&&navigator.serviceWorker.controller&&t(n.waiting),n.addEventListener("updatefound",function(){var r=n.installing;r&&r.addEventListener("statechange",function(){r.state==="installed"&&navigator.serviceWorker.controller&&t(r)})})}).catch(function(){});var e=!1;navigator.serviceWorker.addEventListener("controllerchange",function(){e||(e=!0,location.reload())})}})})();
 </script><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;-webkit-text-size-adjust:100%}img{max-width:100%}[hidden]{display:none!important}.ekb-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}.ekb-bar button{font:inherit;font-size:.85rem;padding:6px 12px;border-radius:8px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}.ekb-upd{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99;background:#14213d;color:#fff;border:0;border-radius:999px;padding:10px 18px;font:inherit;box-shadow:0 4px 14px rgba(0,0,0,.25)}.vtabs{display:flex;gap:4px;flex-wrap:wrap;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--sheet);padding:8px 0;border-bottom:1px solid var(--line);margin-bottom:12px}
 .vtabs button{font-family:var(--f-display);font-weight:600;font-size:1.05rem;letter-spacing:.03em;text-transform:uppercase;border:0;background:var(--chip);color:var(--ink);padding:8px 14px;border-radius:8px;cursor:pointer}
 .vtabs button.on{background:var(--navy);color:var(--sheet)}
@@ -245,6 +245,19 @@ mark{background:color-mix(in srgb,var(--accent) 35%,transparent);color:inherit;b
 .viewer .cap{color:#e9eef3;font-size:.9rem;max-width:900px}
 .viewer .row{justify-content:center}
 .viewer .out{background:var(--sheet);color:var(--ink);border-radius:8px;padding:12px 16px;max-width:900px;width:100%}
+
+.gl-wrap{position:relative;border-radius:14px;overflow:hidden;background:#060b14;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+.gl-wrap canvas{display:block;width:100%;cursor:grab}.gl-wrap canvas:active{cursor:grabbing}
+.gl-ctl{position:absolute;top:10px;right:10px;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;max-width:70%}
+.gl-ctl button{font:600 .82rem var(--f-body);color:#e8f0fb;background:rgba(10,20,36,.72);border:1px solid rgba(150,190,240,.35);border-radius:999px;padding:6px 12px;min-width:34px;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.gl-ctl button.on{background:rgba(255,178,62,.9);color:#1a1206;border-color:transparent}
+.gl-hud{position:absolute;left:12px;bottom:10px;right:12px;color:#e8f0fb;font:500 .82rem var(--f-body);text-shadow:0 1px 3px rgba(0,0,0,.7);pointer-events:none}
+.gl-hud small{opacity:.75}.gl-firs{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.gl-firs span{font:700 .7rem var(--f-mono);background:rgba(111,179,255,.18);border:1px solid rgba(111,179,255,.45);border-radius:4px;padding:1px 5px}
+.gl-tip{position:absolute;pointer-events:none;background:rgba(10,20,36,.9);color:#fff;font:600 .8rem var(--f-mono);padding:4px 8px;border-radius:6px}
+.legend .lg-fir{display:inline-block;width:14px;height:10px;background:rgba(111,179,255,.3);border:1px solid #6fb3ff;vertical-align:middle;margin-right:5px}
+.legend .lg-edtoa{display:inline-block;width:12px;height:12px;border-radius:50%;background:rgba(60,220,170,.15);border:1.5px solid rgb(0,150,110);vertical-align:middle;margin-right:5px}
+.natcard{border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:10px;padding:10px 14px;margin:0 0 14px}.natcard h3{margin:.8em 0 .2em;font-size:1rem}.natcard .src{opacity:.7}
 </style>
 
 <div class="wrap">
@@ -283,17 +296,18 @@ mark{background:color-mix(in srgb,var(--accent) 35%,transparent);color:inherit;b
     </div>
     <div class="facts" id="facts"></div>
     <div class="mapcard" id="mapcard" hidden>
-      <p class="label">Rotta</p>
+      <p class="label">Rotta · globo 3D</p>
       <div class="mapwrap" id="map"></div>
       <div class="legend">
         <span><i class="lg-route"></i>Rotta pianificata</span>
+        <span><i class="lg-fir"></i>FIR attraversati</span>
+        <span><i class="lg-edtoa"></i>Area EDTO (raggio OM-A 8.5.1.4)</span>
         <span><i class="lg-edto"></i>EDTO entry/exit</span>
         <span><i class="lg-etp"></i>ETP</span>
         <span><i class="lg-apt"></i>DEP / DEST</span>
-        <span><i class="lg-era"></i>Alternati e aeroporti EDTO</span>
       </div>
       <div class="firs" id="firs"></div>
-      <p class="note" id="mapnote">Punti e coordinate dall'OFP. Gli aeroporti compaiono quando premi "Prepara il volo".</p>
+      <p class="note" id="mapnote">Trascina per ruotare, pizzica o usa +/− per lo zoom, ▶ Volo per seguire la rotta. Rotta, ETP ed EDTO dall'OFP; confini FIR da dati pubblici (VATSpy, CC BY-SA), indicativi e non ufficiali.</p>
     </div>
     <div class="out" id="out">
       <p class="note">Il briefing comprende: riepilogo volo, rotta e FIR con frequenze, carburante, alternati ed EDTO, terreno e drift-down, meteo e NOTAM, regole dei Paesi attraversati dal Lido Route Manual, minacce TEM con mitigazioni e domande di briefing. Ogni dato riporta la fonte (pagina dell'OFP o sezione del manuale).</p>
@@ -648,6 +662,553 @@ mark{background:color-mix(in srgb,var(--accent) 35%,transparent);color:inherit;b
   window.RouteMap = { parse, draw };
 })();
 </script>
+<script>(function() {
+  const EDTO_NM = { 60: 422, 120: 823, 180: 1225 };
+  let GEO = null, GEOP = null;
+  const geo = (base) => GEO ? Promise.resolve(GEO) : GEOP = GEOP || fetch((base || "") + "geo.json").then((r) => {
+    if (!r.ok) throw new Error("geo " + r.status);
+    return r.json();
+  }).then((j) => GEO = j);
+  function edtoMin(text) {
+    const m = /ETOPS\s+(\d{2,3})\s+MIN/.exec(text || "") || /EDTO\s+(\d{2,3})/.exec(text || "");
+    return m ? +m[1] : null;
+  }
+  function firsCrossed(text) {
+    const out = [], seen = /* @__PURE__ */ new Set();
+    for (const m of (text || "").matchAll(/-{3,}\s*([A-Z][A-Z .'\-]+?)\s+(?:FIR|UIR|OCA|CTA|UTA)\/([A-Z]{4})\s*-{3,}/g)) if (!seen.has(m[2])) {
+      seen.add(m[2]);
+      out.push({ code: m[2], name: m[1].trim() });
+    }
+    for (const m of (text || "").matchAll(/^\s*([A-Z]{4})\s+(?:FIR|UIR)\s+(\d{4})\b/gm)) if (!seen.has(m[1])) {
+      seen.add(m[1]);
+      out.push({ code: m[1], name: "" });
+    }
+    return out;
+  }
+  function globe(el, r, apt, opt) {
+    opt = opt || {};
+    const d3 = window.d3, topo = window.Datamap && Datamap.prototype.worldTopo;
+    if (!d3 || !topo || !window.topojson) {
+      el.innerHTML = '<p class="note">Globo non disponibile (librerie non caricate).</p>';
+      return;
+    }
+    el.innerHTML = '<div class="gl-wrap"><canvas></canvas><div class="gl-ctl"><button data-a="in" aria-label="Zoom avanti">+</button><button data-a="out" aria-label="Zoom indietro">\u2212</button><button data-a="fit">Rotta</button><button data-a="edto" class="on">EDTO</button><button data-a="firs" class="on">FIR</button><button data-a="all">Tutti i FIR</button><button data-a="fly">\u25B6 Volo</button></div><div class="gl-hud"></div><div class="gl-tip" hidden></div></div>';
+    const wrap = el.firstChild, cv = wrap.querySelector("canvas"), hud = wrap.querySelector(".gl-hud"), tip = wrap.querySelector(".gl-tip");
+    hud.innerHTML = '<span class="gl-load">Carico i confini FIR\u2026</span>';
+    geo(opt.base).then((G) => build(G)).catch(() => build({ firs: {}, apts: {} }));
+    function build(G) {
+      var _a, _b;
+      apt = Object.assign({}, apt || {});
+      const need = [r.dep, r.dest, ...r.altn || [], ...r.edtoAlts || [], ...(r.etps || []).flatMap((p) => p.pair || [])];
+      need.forEach((c) => {
+        if (c && !apt[c] && G.apts && G.apts[c]) apt[c] = G.apts[c];
+      });
+      const line = [];
+      if (apt[r.dep]) line.push([apt[r.dep][1], apt[r.dep][0]]);
+      const R = r.route && r.route.length >= 3 ? r.route : (r.points || []).filter((p) => p.kind !== "etp");
+      R.forEach((p) => line.push([p.lon, p.lat]));
+      if (apt[r.dest]) line.push([apt[r.dest][1], apt[r.dest][0]]);
+      if (line.length < 2) {
+        hud.innerHTML = "L\u2019OFP non contiene abbastanza coordinate per il globo.";
+        return;
+      }
+      const route = { type: "LineString", coordinates: line };
+      const firList = (opt.firs || []).filter((f) => G.firs[f.code]);
+      const firF = (id) => ({ type: "Feature", id, properties: G.firs[id], geometry: { type: "MultiPolygon", coordinates: G.firs[id].p.map((x) => [x]) } });
+      const onF = firList.map((f) => firF(f.code));
+      const allF = Object.keys(G.firs).map(firF);
+      const land = topojson.feature(topo, topo.objects.world);
+      const emin = opt.edto, enm = emin && EDTO_NM[emin];
+      const eAlts = [...new Set(r.edtoAlts || [])].filter((c) => apt[c]);
+      const circles = enm ? eAlts.map((c) => d3.geo.circle().origin([apt[c][1], apt[c][0]]).angle(enm / 60).precision(2)()) : [];
+      const c60 = eAlts.map((c) => d3.geo.circle().origin([apt[c][1], apt[c][0]]).angle(EDTO_NM[60] / 60).precision(3)());
+      const etpLines = (r.etps || []).flatMap((p) => (p.pair || []).filter((a) => apt[a]).map((a) => ({ type: "LineString", coordinates: [[p.lon, p.lat], [apt[a][1], apt[a][0]]] })));
+      const total = d3.geo.length(route);
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      let W, H;
+      const proj = d3.geo.orthographic().clipAngle(90).precision(0.4);
+      const ctx = cv.getContext("2d");
+      const path = d3.geo.path().projection(proj).context(ctx);
+      const grat = d3.geo.graticule().step([10, 10])();
+      const cen = d3.geo.centroid(route);
+      const span = d3.geo.distance(...d3.geo.bounds(route)) * 180 / Math.PI;
+      let fitK = 1, st = { rot: [-cen[0], -Math.max(-60, Math.min(60, cen[1])), 0], k: 1 };
+      function size() {
+        W = Math.max(300, wrap.clientWidth);
+        H = Math.round(Math.max(320, Math.min(W * 0.72, window.innerHeight * 0.78)));
+        cv.width = W * dpr;
+        cv.height = H * dpr;
+        cv.style.width = W + "px";
+        cv.style.height = H + "px";
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        fitK = Math.min(W, H) * 0.47 * Math.min(7, Math.max(1, 150 / Math.max(10, span + (enm ? enm / 60 : 0))));
+        proj.translate([W / 2, H / 2]);
+      }
+      size();
+      st.k = fitK;
+      const css = getComputedStyle(el), v = (n) => css.getPropertyValue(n).trim();
+      const dark = () => matchMedia("(prefers-color-scheme: dark)").matches && document.documentElement.dataset.theme !== "light" || document.documentElement.dataset.theme === "dark";
+      const show = { edto: true, firs: true, all: false };
+      let plane = null;
+      const vis = (lon, lat) => d3.geo.distance([lon, lat], [-proj.rotate()[0], -proj.rotate()[1]]) < Math.PI / 2 - 0.01;
+      function pt(f) {
+        let acc = 0;
+        const L = total * f;
+        for (let i = 1; i < line.length; i++) {
+          const d = d3.geo.distance(line[i - 1], line[i]);
+          if (acc + d >= L) {
+            return d3.geo.interpolate(line[i - 1], line[i])((L - acc) / (d || 1));
+          }
+          acc += d;
+        }
+        return line[line.length - 1];
+      }
+      function render() {
+        const D = true;
+        const C = D ? { bg: "#060b14", sea0: "#14263f", sea1: "#08111f", land: "#22364f", landE: "#2f4a6a", grat: "rgba(140,180,230,.10)", fir: "rgba(120,190,255,.16)", firE: "#6fb3ff", allE: "rgba(150,180,220,.28)", edto: "rgba(60,220,170,.10)", edtoE: "rgba(60,220,170,.75)", e60: "rgba(255,255,255,.18)", route: "#ffb23e", glow: "rgba(255,178,62,.35)", ink: "#e8f0fb", mut: "#9fb2c8", etp: "#5ec8de", apt: "#ffffff" } : { bg: "#eef3f9", sea0: "#ffffff", sea1: "#d7e4f2", land: "#c9d6e4", landE: "#9fb3c9", grat: "rgba(20,50,90,.08)", fir: "rgba(22,50,79,.12)", firE: "#16324f", allE: "rgba(22,50,79,.25)", edto: "rgba(0,140,100,.10)", edtoE: "rgba(0,120,85,.8)", e60: "rgba(22,50,79,.18)", route: "#c26a00", glow: "rgba(194,106,0,.25)", ink: "#13243a", mut: "#5b6b80", etp: "#0b6f86", apt: "#16324f" };
+        proj.rotate(st.rot).scale(st.k);
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = C.bg;
+        ctx.fillRect(0, 0, W, H);
+        const rr = proj.scale();
+        const atm = ctx.createRadialGradient(W / 2, H / 2, rr * 0.98, W / 2, H / 2, rr * 1.12);
+        atm.addColorStop(0, D ? "rgba(90,160,255,.35)" : "rgba(80,130,200,.20)");
+        atm.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = atm;
+        ctx.beginPath();
+        ctx.arc(W / 2, H / 2, rr * 1.12, 0, 7);
+        ctx.fill();
+        const sea = ctx.createRadialGradient(W / 2 - rr * 0.35, H / 2 - rr * 0.4, rr * 0.05, W / 2, H / 2, rr);
+        sea.addColorStop(0, C.sea0);
+        sea.addColorStop(1, C.sea1);
+        ctx.beginPath();
+        path({ type: "Sphere" });
+        ctx.fillStyle = sea;
+        ctx.fill();
+        ctx.beginPath();
+        path(grat);
+        ctx.strokeStyle = C.grat;
+        ctx.lineWidth = 0.6;
+        ctx.stroke();
+        ctx.beginPath();
+        path(land);
+        ctx.fillStyle = C.land;
+        ctx.fill();
+        ctx.strokeStyle = C.landE;
+        ctx.lineWidth = 0.4;
+        ctx.stroke();
+        if (show.all) {
+          ctx.beginPath();
+          allF.forEach((f) => path(f));
+          ctx.strokeStyle = C.allE;
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+        if (show.edto && circles.length) {
+          ctx.beginPath();
+          c60.forEach((c) => path(c));
+          ctx.setLineDash([3, 4]);
+          ctx.strokeStyle = C.e60;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.beginPath();
+          circles.forEach((c) => path(c));
+          ctx.fillStyle = C.edto;
+          ctx.fill("nonzero");
+          ctx.globalAlpha = 0.45;
+          ctx.strokeStyle = C.edtoE;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        }
+        if (show.firs) onF.forEach((f, i) => {
+          ctx.beginPath();
+          path(f);
+          ctx.fillStyle = C.fir;
+          ctx.globalAlpha = i % 2 ? 0.6 : 1;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+          ctx.strokeStyle = C.firE;
+          ctx.lineWidth = 1.1;
+          ctx.stroke();
+        });
+        ctx.beginPath();
+        etpLines.forEach((l) => path(l));
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = C.etp;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.beginPath();
+        path(route);
+        ctx.strokeStyle = C.glow;
+        ctx.lineWidth = 7;
+        ctx.lineCap = "round";
+        ctx.stroke();
+        ctx.beginPath();
+        path(route);
+        ctx.strokeStyle = C.route;
+        ctx.lineWidth = 2.4;
+        ctx.stroke();
+        const font = (w, s) => `${w} ${s}px ${v("--f-mono") || "ui-monospace,monospace"}`;
+        const big = st.k > fitK * 1.7;
+        if (show.firs) {
+          ctx.font = font(700, 11);
+          ctx.fillStyle = C.firE;
+          onF.forEach((f) => {
+            const l = f.properties.l;
+            if (l && vis(l[0], l[1])) {
+              const p = proj(l);
+              ctx.globalAlpha = 0.85;
+              ctx.fillText(f.id, p[0] - 15, p[1]);
+              ctx.globalAlpha = 1;
+            }
+          });
+        }
+        ctx.font = font(500, 10);
+        R.forEach((p, i) => {
+          if (!vis(p.lon, p.lat)) return;
+          const q = proj([p.lon, p.lat]);
+          ctx.beginPath();
+          ctx.arc(q[0], q[1], 1.8, 0, 7);
+          ctx.fillStyle = C.route;
+          ctx.fill();
+          if (big && p.name && p.name !== "T_O_D") {
+            ctx.fillStyle = C.mut;
+            ctx.fillText(p.name, q[0] + 4, q[1] - 4);
+          }
+        });
+        (r.points || []).forEach((p) => {
+          if (!vis(p.lon, p.lat)) return;
+          const q = proj([p.lon, p.lat]);
+          if (p.kind === "edto") {
+            ctx.strokeStyle = C.route;
+            ctx.lineWidth = 1.6;
+            ctx.strokeRect(q[0] - 5, q[1] - 5, 10, 10);
+            ctx.fillStyle = C.ink;
+            ctx.font = font(700, 10);
+            ctx.fillText(p.name, q[0] + 8, q[1] - 6);
+          }
+          if (p.kind === "etp") {
+            ctx.beginPath();
+            ctx.moveTo(q[0], q[1] - 7);
+            ctx.lineTo(q[0] + 7, q[1]);
+            ctx.lineTo(q[0], q[1] + 7);
+            ctx.lineTo(q[0] - 7, q[1]);
+            ctx.closePath();
+            ctx.fillStyle = C.etp;
+            ctx.fill();
+            ctx.fillStyle = C.etp;
+            ctx.font = font(700, 10);
+            ctx.fillText(p.name, q[0] + 9, q[1] + 12);
+          }
+        });
+        Object.entries(apt).forEach(([c, a]) => {
+          if (!vis(a[1], a[0])) return;
+          const q = proj([a[1], a[0]]);
+          const main = c === r.dep || c === r.dest;
+          const ed = eAlts.includes(c);
+          ctx.beginPath();
+          ctx.arc(q[0], q[1], main ? 6 : 4.5, 0, 7);
+          if (main) {
+            ctx.fillStyle = C.apt;
+            ctx.fill();
+          } else {
+            ctx.strokeStyle = ed ? C.edtoE : C.ink;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+          }
+          ctx.font = font(main ? 700 : 600, main ? 12 : 10.5);
+          ctx.fillStyle = main ? C.ink : ed ? C.edtoE : C.mut;
+          ctx.fillText(c, q[0] + 8, q[1] + 4);
+        });
+        if (plane != null) {
+          const g = pt(plane);
+          if (vis(g[0], g[1])) {
+            const q = proj(g), q2 = proj(pt(Math.min(1, plane + 4e-3)));
+            const ang = Math.atan2(q2[1] - q[1], q2[0] - q[0]);
+            ctx.save();
+            ctx.translate(q[0], q[1]);
+            ctx.rotate(ang);
+            ctx.fillStyle = C.ink;
+            ctx.beginPath();
+            ctx.moveTo(9, 0);
+            ctx.lineTo(-6, -2);
+            ctx.lineTo(-3, -9);
+            ctx.lineTo(-5, -9);
+            ctx.lineTo(-10, -2);
+            ctx.lineTo(-13, -2);
+            ctx.lineTo(-15, -5);
+            ctx.lineTo(-16, -5);
+            ctx.lineTo(-15, 0);
+            ctx.lineTo(-16, 5);
+            ctx.lineTo(-15, 5);
+            ctx.lineTo(-13, 2);
+            ctx.lineTo(-10, 2);
+            ctx.lineTo(-5, 9);
+            ctx.lineTo(-3, 9);
+            ctx.lineTo(-6, 2);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+          }
+        }
+        ctx.beginPath();
+        path({ type: "Sphere" });
+        ctx.strokeStyle = D ? "rgba(140,190,255,.35)" : "rgba(22,50,79,.25)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+      hud.innerHTML = `<b>${r.dep || ""} \u2192 ${r.dest || ""}</b>` + (emin ? ` \xB7 EDTO ${emin} min = ${enm} NM a 330 kt <small>(OM-A 8.5.1.4)</small> \xB7 tratteggio 60 min = 422 NM` : "") + `<div class="gl-firs">${firList.map((f) => `<span>${f.code}</span>`).join("")}</div>`;
+      const target = st.rot.slice(), from = [target[0] + 70, target[1] - 15, 0];
+      st.rot = from;
+      st.k = fitK * 0.6;
+      const t0 = performance.now(), dur = 1400;
+      (function intro(t) {
+        const f = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - f, 3);
+        st.rot = [from[0] + (target[0] - from[0]) * e, from[1] + (target[1] - from[1]) * e, 0];
+        st.k = fitK * (0.6 + 0.4 * e);
+        render();
+        if (f < 1) requestAnimationFrame(intro);
+      })(t0);
+      const ptr = /* @__PURE__ */ new Map();
+      let last = null, pinch = null;
+      cv.style.touchAction = "none";
+      const clampK = (k) => Math.max(Math.min(W, H) * 0.3, Math.min(fitK * 14, k));
+      cv.onpointerdown = (e) => {
+        cv.setPointerCapture(e.pointerId);
+        ptr.set(e.pointerId, [e.clientX, e.clientY]);
+        last = [e.clientX, e.clientY];
+        if (ptr.size === 2) {
+          const [a, b] = [...ptr.values()];
+          pinch = { d: Math.hypot(a[0] - b[0], a[1] - b[1]), k: st.k };
+        }
+      };
+      cv.onpointermove = (e) => {
+        if (!ptr.has(e.pointerId)) {
+          hover(e);
+          return;
+        }
+        ptr.set(e.pointerId, [e.clientX, e.clientY]);
+        if (ptr.size === 2 && pinch) {
+          const [a, b] = [...ptr.values()];
+          st.k = clampK(pinch.k * Math.hypot(a[0] - b[0], a[1] - b[1]) / pinch.d);
+        } else if (last) {
+          const k = 75 / st.k;
+          st.rot = [st.rot[0] + (e.clientX - last[0]) * k, Math.max(-88, Math.min(88, st.rot[1] - (e.clientY - last[1]) * k)), 0];
+          last = [e.clientX, e.clientY];
+        }
+        render();
+      };
+      cv.onpointerup = cv.onpointercancel = (e) => {
+        ptr.delete(e.pointerId);
+        if (ptr.size < 2) pinch = null;
+        last = ptr.size ? [...ptr.values()][0] : null;
+      };
+      cv.onwheel = (e) => {
+        e.preventDefault();
+        st.k = clampK(st.k * (e.deltaY < 0 ? 1.12 : 0.89));
+        render();
+      };
+      function hover(e) {
+        const b = cv.getBoundingClientRect(), ll = proj.invert([e.clientX - b.left, e.clientY - b.top]);
+        if (!ll || !vis(ll[0], ll[1])) {
+          tip.hidden = true;
+          return;
+        }
+        const f = onF.find((f2) => d3.geo.contains ? d3.geo.contains(f2, ll) : inside(f2, ll));
+        if (!f) {
+          tip.hidden = true;
+          return;
+        }
+        const x = firList.find((z) => z.code === f.id);
+        tip.hidden = false;
+        tip.textContent = `${f.id} ${f.properties.n || x && x.name || ""}`;
+        tip.style.left = e.clientX - b.left + 12 + "px";
+        tip.style.top = e.clientY - b.top + 12 + "px";
+      }
+      function inside(f, [x, y]) {
+        return f.geometry.coordinates.some((poly) => {
+          const ring = poly[0];
+          let c = false;
+          for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+            const [xi, yi] = ring[i], [xj, yj] = ring[j];
+            if (yi > y !== yj > y && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c;
+          }
+          return c;
+        });
+      }
+      let flying = null;
+      wrap.querySelectorAll(".gl-ctl button").forEach((b) => b.onclick = () => {
+        const a = b.dataset.a;
+        if (a === "in") st.k = clampK(st.k * 1.4);
+        if (a === "out") st.k = clampK(st.k / 1.4);
+        if (a === "fit") {
+          st.rot = target.slice();
+          st.k = fitK;
+        }
+        if (a === "edto" || a === "firs" || a === "all") {
+          show[a] = !show[a];
+          b.classList.toggle("on", show[a]);
+        }
+        if (a === "fly") {
+          if (flying) {
+            cancelAnimationFrame(flying);
+            flying = null;
+            plane = null;
+            b.textContent = "\u25B6 Volo";
+            render();
+            return;
+          }
+          b.textContent = "\u25A0 Stop";
+          const t1 = performance.now(), T = 16e3;
+          st.k = Math.max(st.k, fitK * 2.2);
+          const step = (t) => {
+            const f = Math.min(1, (t - t1) / T);
+            plane = f;
+            const g = pt(f);
+            st.rot = [-g[0], -Math.max(-60, Math.min(60, g[1])), 0];
+            render();
+            if (f < 1) flying = requestAnimationFrame(step);
+            else {
+              flying = null;
+              b.textContent = "\u25B6 Volo";
+            }
+          };
+          flying = requestAnimationFrame(step);
+          return;
+        }
+        render();
+      });
+      let rz;
+      window.addEventListener("resize", () => {
+        clearTimeout(rz);
+        rz = setTimeout(() => {
+          const k = st.k / fitK;
+          size();
+          st.k = fitK * k;
+          render();
+        }, 150);
+      });
+      (_b = (_a = matchMedia("(prefers-color-scheme: dark)")).addEventListener) == null ? void 0 : _b.call(_a, "change", render);
+    }
+  }
+  window.Globe3D = { globe, edtoMin, firsCrossed, EDTO_NM };
+})();
+</script>
+<script>window.NAT = (function() {
+  "use strict";
+  const OCA = {
+    EGGX: {
+      n: "Shanwick",
+      logon: "EGGX",
+      W: { rcl: "90\u201330 min before OEP", addr: "EGGX" },
+      E: { rcl: "valid from the previous FIR" },
+      notes: ["Shanwick still issues the oceanic clearance after the RCL (Doc 007 6.3.27)", "CONFIRM ASSIGNED ROUTE \u22485 min after entry \u2192 SEND the route with the prompt, never free text (Lido 2.3.5.5.6)"]
+    },
+    CZQX: {
+      n: "Gander",
+      logon: "CZQX (45\u201315 min before entry)",
+      W: { rcl: "valid from the previous FIR" },
+      E: { rcl: "90\u201360 min before OEP", addr: "CZQX" },
+      notes: ["No oceanic clearance: enter with the current ATC clearance (Doc 007 6.3.35)", "HF SELCAL check required on entry, also when FANS connected (Lido 2.3.5.5.2)", '"SET MAX UPLINK DELAY VALUE TO 300 SECONDS" \u2192 ROGER (Lido 2.3.5.5.2)']
+    },
+    BIRD: {
+      n: "Reykjavik",
+      logon: "BIRD",
+      W: { rcl: "not required" },
+      E: { rcl: "not required" },
+      notes: ["VHF primary when in VHF coverage", "Keep the Reykjavik transponder code throughout the OCA (Doc 007 8.2.2)", "No SLOP below FL285 (OM-C)"]
+    },
+    LPPO: { n: "Santa Maria", logon: "LPPO", W: { rcl: "valid from the previous FIR or at least 40 min before", addr: "LPPO" }, E: { rcl: "valid from the previous FIR" }, notes: [] },
+    ENOB: { n: "Bod\xF8", logon: "ENOB", W: { rcl: "at least 20 min before", addr: "ENOB" }, E: { rcl: "valid from the previous FIR" }, notes: ["VHF primary when in VHF coverage", "No SLOP below FL285 (OM-C)"] },
+    KZWY: { n: "New York Oceanic", logon: "KZWY", W: { rcl: "valid from the previous FIR" }, E: { rcl: "no RCL required" }, notes: ["Keep the code within 180 NM of Bermuda (Doc 007 8.2.2)"] }
+  };
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  const hm = (m) => `${Math.floor(m / 60)}:${String(m % 60).padStart(2, "0")}`;
+  function detect(t) {
+    if (!t) return null;
+    const T = t.toUpperCase(), hits = [];
+    const fpl = (T.match(/\(FPL-[\s\S]*?\)\s*$/m) || T.match(/\(FPL-[\s\S]{0,4000}?\)/) || [""])[0];
+    const eetTxt = ((fpl || T).match(/EET\/([\s\S]*?)(?=\s[A-Z]{3,4}\/|\)|$)/) || [])[1] || "";
+    for (const tok of eetTxt.split(/\s+/)) {
+      const m = /^([A-Z]{4})(\d{2})(\d{2})$/.exec(tok);
+      if (m && OCA[m[1]] && !hits.find((h) => h.code === m[1])) hits.push({ code: m[1], eet: +m[2] * 60 + +m[3] });
+    }
+    if (!fpl) {
+      for (const c of Object.keys(OCA)) if (!hits.find((h) => h.code === c) && new RegExp("\\b" + c + "\\b").test(T) && /OCEANIC/.test(T)) hits.push({ code: c, eet: null });
+    }
+    const rte = (fpl.match(/\n-[NMK]\d{4}[FAS]\d{3,4}[\s\S]*?(?=\n-[A-Z]{4}\d{4})/) || [""])[0].replace(/\s+/g, " ");
+    const toks = rte.split(" ").map((x) => x.split("/")[0]);
+    const isC = (w) => /^(\d{2}N\d{3}W|\d{4}N\d{5}W|\d{4}N|H\d{4}|\d{2}N\d{2}W|N\d{4}W\d{5})$/.test(w);
+    const wpts = toks.filter(isC);
+    const i0 = toks.findIndex(isC), i1 = toks.length - 1 - [...toks].reverse().findIndex(isC);
+    const oep = i0 > 0 ? toks.slice(0, i0).reverse().find((x) => /^[A-Z]{3,5}$/.test(x) && x !== "DCT") : "";
+    const oxp = i1 >= 0 && i1 < toks.length - 1 ? toks.slice(i1 + 1).find((x) => /^[A-Z]{3,5}$/.test(x) && x !== "DCT") : "";
+    const eetW = (w) => {
+      const m = new RegExp("\\b" + w + "(\\d{2})(\\d{2})\\b").exec(eetTxt);
+      return m ? +m[1] * 60 + +m[2] : null;
+    };
+    if (!hits.length && wpts.length < 2) return null;
+    const extra = { wpts, oep, oxp, oepEet: oep ? eetW(oep) : null, firstW: wpts[0] || "", firstWEet: wpts[0] ? eetW(wpts[0]) : null };
+    if (!hits.length) return { ocas: [], dir: "", ...extra };
+    hits.sort((a, b) => {
+      var _a, _b;
+      return ((_a = a.eet) != null ? _a : 9e9) - ((_b = b.eet) != null ? _b : 9e9);
+    });
+    const order = hits.map((h) => h.code), iW = (c) => order.indexOf(c);
+    let dir = "";
+    if (iW("EGGX") >= 0 && iW("CZQX") >= 0) dir = iW("EGGX") < iW("CZQX") ? "W" : "E";
+    else if (iW("CZQX") >= 0 || iW("KZWY") >= 0) dir = order[0] === "CZQX" || order[0] === "KZWY" ? "E" : "W";
+    else if (/DEP|ADEP|-OMDB|-OMAA/.test(T) && /-K[A-Z]{3}|-C[YZ][A-Z]{2}/.test(T)) dir = "W";
+    return { ocas: hits, dir, ...extra };
+  }
+  const li = (x, src) => `<li>${x}${src ? ` <small class="src">(${esc(src)})</small>` : ""}</li>`;
+  function card(t) {
+    const N = detect(t);
+    if (!N) return "";
+    const D = N.dir === "W" ? "W" : N.dir === "E" ? "E" : "";
+    const first = N.ocas[0], last = N.ocas[N.ocas.length - 1];
+    const rows = N.ocas.map((h, k) => {
+      const o = OCA[h.code], r = D ? o[D] : null;
+      const ref = k === 0 && N.oepEet != null ? N.oepEet : h.eet;
+      let rcl = r ? r.rcl : "see OM-C 12.3.4.2.5";
+      if (r && r.addr && ref != null) {
+        const m = /(\d+)–(\d+) min/.exec(r.rcl);
+        if (m) rcl += ` \u2192 send between ${hm(Math.max(0, ref - +m[1]))} and ${hm(Math.max(0, ref - +m[2]))} EET${k === 0 && N.oep ? " (OEP " + N.oep + ")" : ""}`;
+      }
+      return `<tr><td><b>${esc(h.code)}</b> ${esc(o.n)}</td><td>${h.eet != null ? hm(h.eet) : "\u2014"}</td><td>${esc(rcl)}${r && r.addr ? ` \xB7 address <b>${esc(r.addr)}</b>` : ""}</td><td>${esc(o.logon)}${ref != null ? h.code === "CZQX" ? ` \xB7 log on between ${hm(Math.max(0, ref - 45))} and ${hm(Math.max(0, ref - 15))}` : ` \xB7 if not connected, log on between ${hm(Math.max(0, ref - 25))} and ${hm(Math.max(0, ref - 10))}` : ""}</td><td>${o.notes.map(esc).join("<br>")}</td></tr>`;
+    }).join("");
+    const firstEet = first && first.eet != null ? first.eet : null;
+    return `<section class="natcard"><h2>NAT-HLA \u2014 this flight (A350)</h2>
+<p class="note">${D === "W" ? "Westbound" : D === "E" ? "Eastbound" : "Direction not determined"} \xB7 NAT HLA FL285\u2013FL420 \xB7 data link mandatory FL290\u2013FL410 \xB7 PBCS tracks FL350\u2013390 need RNP 4 + RCP 240 + RSP 180. Oceanic route (ATC FPL): ${N.oep ? `<b>${esc(N.oep)}</b>${N.oepEet != null ? " " + hm(N.oepEet) : ""} \u2192 ` : ""}${N.wpts.length ? esc(N.wpts.join(" ")) : "no lat/long waypoints"}${N.oxp ? ` \u2192 <b>${esc(N.oxp)}</b>` : ""}.</p>
+<div class="tw"><table><thead><tr><th>OCA</th><th>Entry EET</th><th>RCL</th><th>CPDLC</th><th>Notes</th></tr></thead><tbody>${rows || '<tr><td colspan="5">OCAs not found in the ATC FPL EET field \u2013 check the OFP.</td></tr>'}</tbody></table></div>
+<h3>Before departure</h3><ul class="gpl">
+${li("NAT Track Message valid for the crossing time; OFP waypoints agree with it; next best OTS track in the OFP summary (only if on the OTS). Tracks at 30W: eastbound 0100\u20130800Z, westbound 1130\u20131900Z.", "FCOM PRO-SPO-OOP \xB7 NAT-HLA guide")}
+${li("Tech Log: no RVSM / Long Range Navigation restriction. Clock in GPS (\xB11 s) for CPDLC/ADS-C.", "FCOM PRO-SPO-OOP \xB7 NAT-HLA graphics")}
+${li("<b>Oceanic Airspace Flight Plan Check</b>: PF checks, PM independently cross-checks every oceanic waypoint (entry and exit); North Ref TRUE, track and distance each within <b>2 NM / 2\xB0</b>; then North Ref MAG. Full coordinates via <b>Lateral Revision \u2192 INSERT NEXT WPT</b>.", "FCOM PRO-SPO-OOP")}
+</ul><h3>Before the OEP${N.oep ? ` \u2013 ${esc(N.oep)}${N.oepEet != null ? " at " + hm(N.oepEet) : ""}` : firstEet != null ? ` (${esc(first.code)} at ${hm(firstEet)})` : ""}</h3><ul class="gpl">
+${li('RCL: ETO at OEP, FL, Mach, TMI, next track, <b>max acceptable FL</b>. "RCL RECEIVED" is not a clearance.', "OM-C 12.3.4.2.2.2 \xB7 Doc 007 6.3")}
+${li("Clearance: headsets, both pilots listen; <b>clearance vs FMS</b> (waypoints, FL, Mach). If different: PF enters, PM cross-checks, track/distance, new master document \u2013 <b>fly the clearance, not the flight plan</b>. Do not climb to the oceanic level without domestic ATC clearance.", "FCOM PRO-SPO-OOP \xB7 NAT-HLA guide")}
+${li("ETA at OEP changes by <b>3 min or more</b> \u2192 tell ATC. CPDLC log-on 10\u201325 min before the boundary if not already connected.", "FCOM \xB7 OM-C 12.3.4.2.5 \xB7 Doc 007 5.3")}
+</ul><h3>In the OCA</h3><ul class="gpl">
+${li("At each waypoint: next two waypoints against the clearance, track/distance to the next; confirm the turn overhead.", "FCOM PRO-SPO-OOP")}
+${li("<b>SLOP</b> up to <b>2 NM right</b>, never left \u2013 check the TO waypoint after entering it; <b>cancel overhead the oceanic exit point</b>.", "Doc 007 6.3.48\u201349 \xB7 FCOM")}
+${li("Squawk <b>2000 ten minutes after the OEP</b> (except Reykjavik and the 180 NM around Bermuda). Mach change \xB10.02 \u2192 tell ATC. 121.5 and 123.45 watch.", "Doc 007 8.2.2, 5.2 \xB7 OM-C")}
+</ul><h3>Contingency numbers</h3><ul class="gpl">
+${li("Cannot keep the clearance: MAYDAY/PAN \u2192 turn <b>\u226530\xB0</b> to a <b>5 NM</b> parallel offset \u2192 keep FL or minimum descent rate \u2192 lights, TCAS, 7700, broadcast 121.5/123.45 \u2192 <b>below FL290</b> with 500 ft offset, or 500 ft offset (1000 ft above FL410).", "OM-C 12.4.2.1 \xB7 Doc 007 10.2\u201310.3")}
+${li("Weather without clearance: away from the OTS; &lt;5 NM keep FL; \u22655 NM change <b>300 ft</b> by direction and side (eastbound: left descend / right climb; westbound: left climb / right descend); back on the FL within 5 NM of track.", "OM-C 12.4.2.2 \xB7 Doc 007 10.4")}
+</ul><p><button class="idlink" data-open="natsum:1">Open the NAT A350 summary</button> \xB7 <button class="idlink" data-open="nat007:10.2">NAT Doc 007 contingencies</button></p></section>`;
+  }
+  function promptNote(t) {
+    const N = detect(t);
+    if (!N) return "";
+    return `NAT: this flight enters the NAT HLA (${N.ocas.map((h) => h.code + (h.eet != null ? " " + hm(h.eet) : "")).join(", ") || "oceanic waypoints"}), ${N.dir === "W" ? "westbound" : N.dir === "E" ? "eastbound" : "direction unknown"}. A separate NAT-HLA card is shown above the briefing: in sections 2 and 4 mention only the NAT points specific to THIS flight (RCL time, OEP, track message validity, anything in the NOTAMs) and cite "NAT A350 summary" / NAT Doc 007 V.2026-1.`;
+  }
+  return { detect, card, promptNote, OCA };
+})();
+</script>
 <script>"use strict";
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -694,7 +1255,7 @@ async function loadKB() {
     } catch (e) {
       console.warn("study", e);
     }
-    $("#kbstat").innerHTML = KB.index.docs.map((d) => `<span>${esc(d.short || d.name)} \xB7 ${esc(d.rev || "")}</span>`).join("") + `<span>${KB.index.sections.length} sezioni</span>` + (window.EKAPP ? `<span>App offline · versione 15/11 00:11</span>` : "") + (window.EKB ? EKB.chip() : "");
+    $("#kbstat").innerHTML = KB.index.docs.map((d) => `<span>${esc(d.short || d.name)} \xB7 ${esc(d.rev || "")}</span>`).join("") + `<span>${KB.index.sections.length} sezioni</span>` + (window.EKAPP ? `<span>App offline · versione 23/11 14:59</span>` : "") + (window.EKB ? EKB.chip() : "");
   } catch (e) {
     $("#kbstat").innerHTML = `<span class="err">Biblioteca non caricata</span>`;
     EKB.showLoad();
@@ -989,7 +1550,8 @@ function showMap(apt) {
       return;
     }
     $("#mapcard").hidden = false;
-    RouteMap.draw($("#map"), m, apt || OFP.apt || {});
+    if (window.Globe3D) Globe3D.globe($("#map"), m, apt || OFP.apt || {}, { edto: Globe3D.edtoMin(OFP.text), firs: Globe3D.firsCrossed(OFP.text), base: window.EKGEO || "" });
+    else RouteMap.draw($("#map"), m, apt || OFP.apt || {});
     $("#firs").innerHTML = (m.firs || []).map((f) => `<span>${esc(f.code)} ${esc(f.name)}</span>`).join("");
   } catch (e) {
     $("#mapcard").hidden = true;
@@ -1246,6 +1808,8 @@ ${SHORT ? `LENGTH \u2014 SHORT VERSION (strict): the whole briefing must fit in 
 - Section 9: max 4 threats, one line threat + one line mitigation.
 ` : ""}Rules: cite the source of every fact (e.g. "OFP p.3", "Network Report AIRAC 2611", "Lido RM \xA7 3.x", "OM-A \xA7 8.x"). If data is missing, say so. Use search_manuals and read_section (up to about 8 searches) to fill gaps: BEFORE writing "check Lido" for a country topic (CPDLC/datalink, contingency, RVSM, interception, communication failure), search the library for it (e.g. "Oman contingency", "India RVSM"; general interception procedures are in the Lido RM general part). Also look up OM-C chapters that the Network Report refers to. Write "check Lido" only if the search finds nothing. The briefing is a support only: the official OFP, Lido and the controlled manuals prevail. Do NOT write briefing questions: they are produced separately.
 
+${window.NAT ? NAT.promptNote(OFP.text) : ""}
+
 EXTRACTED DATA: ${JSON.stringify(info)}
 
 NETWORK REPORT (current):
@@ -1304,6 +1868,14 @@ ${r.text}`,
     OFP.info = info;
     OFP.brief = r.text;
     OFP.wx = (WX == null ? void 0 : WX.text) || "";
+    if (window.NAT) {
+      const nc = NAT.card(OFP.text);
+      if (nc) {
+        out.insertAdjacentHTML("afterbegin", nc);
+        linkIds(out);
+        trace("NAT-HLA: card added (NAT A350 summary, FCOM PRO-SPO-OOP, OM-C 12.3.4.2, NAT Doc 007)");
+      }
+    }
     if ((_a = OFP.charts) == null ? void 0 : _a.length) out.appendChild(chartBlock(WX == null ? void 0 : WX.text));
     step("brief", "done");
     step("qa", "on");
@@ -1743,7 +2315,7 @@ async function runFind() {
     $("#fgo").disabled = false;
   }
 }
-const DOCORDER = ["fcom", "fctm", "qrh", "mel", "cdl", "oma", "omc", "omd", "ome", "lido", "gom", "raig", "fcn", "nr"];
+const DOCORDER = ["fcom", "fctm", "qrh", "mel", "cdl", "oma", "omc", "omd", "ome", "lido", "gom", "raig", "fcn", "nr", "natsum", "nat007", "nathla"];
 const PARTS = {
   fcom: { GEN: "General", LIM: "Limitations", DSC: "Systems description", PRO: "Procedures", PER: "Performance" },
   fctm: { GI: "General information", PR: "Procedures", AOP: "Operational philosophy", AS: "Aircraft systems" },
@@ -2160,6 +2732,7 @@ const PRESETS = [
   ["OM-E sicurezza A350", () => pick(secsUnder("ome", "9"), 8)],
   ["Lido parte generale", () => pick(secsUnder("lido", "1"), 8)],
   ["MEL", () => pick((KB.byDoc.get("mel") || []).filter((s) => /^M[IO]\//.test(s.p) && s.n > 400), 8)],
+  ["NAT-HLA", () => pick([...(KB.byDoc.get("natsum") || []).filter((s) => s.n > 300), ...(KB.byDoc.get("nat007") || []).filter((s) => s.n > 1500 && /^nat007:(1|2|4|5|6|8|10)\./.test(s.i))], 8)],
   ["RAIG driftdown", () => pick((KB.byDoc.get("raig") || []).filter((s) => /^raig:H/.test(s.i) && s.n > 300), 6)]
 ];
 let quizCtl = null, quizSrc = null;
@@ -2892,6 +3465,10 @@ async function offlineBrief() {
   step("brief", "done");
   html += `<h2>9. Threats (TEM)</h2><div id="aitem"></div><h2>10. Briefing questions \u2014 "What if\u2026?"</h2><div id="aiqa"></div>`;
   out.innerHTML = html;
+  if (window.NAT) {
+    const nc = NAT.card(t);
+    if (nc) out.insertAdjacentHTML("afterbegin", nc);
+  }
   linkIds(out);
   if ((_a = OFP.charts) == null ? void 0 : _a.length) out.appendChild(chartBlock(""));
   OFP.offline = R;
