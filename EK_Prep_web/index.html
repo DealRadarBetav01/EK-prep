@@ -1,64 +1,5 @@
-<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>EK Prep</title><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="EK Prep"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="theme-color" content="#14213d"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="icon-192.png"><script>window.EKGEO="libs/";window.EKAPP=true;window.EKVER="20261123-1459";</script><script>(function(){var g="ekprep",a="files";function b(){return new Promise(function(e,n){var t=indexedDB.open(g,1);t.onupgradeneeded=function(){t.result.createObjectStore(a)},t.onsuccess=function(){e(t.result)},t.onerror=function(){n(t.error)}})}function u(e,n){return b().then(function(t){return new Promise(function(r,i){var o=t.transaction(a,e),v=n(o.objectStore(a));o.oncomplete=function(){r(v&&v.result)},o.onerror=function(){i(o.error)},o.onabort=function(){i(o.error||new Error("abort"))}})})}function l(e){return e?e.slice(0,8).arrayBuffer().then(function(n){var t=new DataView(n);if(String.fromCharCode(t.getUint8(0),t.getUint8(1),t.getUint8(2),t.getUint8(3))!=="EKB1")throw new Error("Non \xE8 un file biblioteca EK (.ekb)");var r=t.getUint32(4,!0);return e.slice(8,8+r).text().then(function(i){var o=JSON.parse(i);return{blob:e,dir:o.files,meta:o.meta||{},base:8+r}})}):Promise.resolve(null)}var c=null,s=u("readonly",function(e){return e.get("kb")}).then(l).then(function(e){return c=e,e}).catch(function(){return null});function f(e){return{ok:!1,status:e,json:function(){return Promise.reject(new Error(String(e)))},text:function(){return Promise.reject(new Error(String(e)))}}}window.kbFetch=function(e){return s.then(function(n){if(n){var t=n.dir[e];if(!t)return f(404);var r=n.blob.slice(n.base+t[0],n.base+t[0]+t[1]);return{ok:!0,status:200,json:function(){return r.text().then(JSON.parse)},text:function(){return r.text()}}}return fetch(e).catch(function(){return f(0)})})};function p(e,n){n("Controllo il file\u2026"),l(e).then(function(t){return n("Copio la biblioteca nell\u2019app ("+Math.round(e.size/1e6)+" MB)\u2026"),e.arrayBuffer().then(function(r){var i=new Blob([r],{type:"application/octet-stream"});return u("readwrite",function(o){return o.put(i,"kb")}).then(function(){return t})})}).then(function(t){try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch{}n("Biblioteca caricata ("+(t.meta.built||"")+"). Riavvio\u2026"),setTimeout(function(){location.reload()},700)}).catch(function(t){n("Non riuscito: "+(t&&t.message||t))})}function d(e){var n=document.createElement("input");n.type="file",n.onchange=function(){n.files&&n.files[0]&&p(n.files[0],function(t){e&&(e.textContent=t)})},n.click()}window.EKB={ready:s,chip:function(){return c?"<span>Biblioteca del "+(c.meta.built||"?")+' <a href="#" onclick="EKB.pick(this);return false">aggiorna</a></span>':""},pick:function(e){d(e)},showLoad:function(){var e=document.getElementById("kbstat");if(!(!e||document.getElementById("ekb-load"))){var n=document.createElement("div");n.className="ekb-bar",n.innerHTML='<button id="ekb-load">Carica la biblioteca (EK_biblioteca.ekb)</button><span id="ekb-msg">Una volta sola: scegli il file in File sull\u2019iPad. Resta nell\u2019app, anche offline.</span>',e.parentNode.insertBefore(n,e.nextSibling),document.getElementById("ekb-load").onclick=function(){d(document.getElementById("ekb-msg"))}}}},("serviceWorker"in navigator&&location.protocol==="https:"||location.hostname==="localhost")&&window.addEventListener("load",function(){if(navigator.serviceWorker){navigator.serviceWorker.register("sw.js").then(function(n){function t(r){if(!(!r||document.getElementById("ekb-upd"))){var i=document.createElement("button");i.id="ekb-upd",i.className="ekb-upd",i.textContent="Nuova versione pronta \u2013 tocca per aggiornare",i.onclick=function(){r.postMessage("skipWaiting")},document.body.appendChild(i)}}n.waiting&&navigator.serviceWorker.controller&&t(n.waiting),n.addEventListener("updatefound",function(){var r=n.installing;r&&r.addEventListener("statechange",function(){r.state==="installed"&&navigator.serviceWorker.controller&&t(r)})})}).catch(function(){});var e=!1;navigator.serviceWorker.addEventListener("controllerchange",function(){e||(e=!0,location.reload())})}})})();
-</script><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;-webkit-text-size-adjust:100%}img{max-width:100%}[hidden]{display:none!important}.ekb-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}.ekb-bar button{font:inherit;font-size:.85rem;padding:6px 12px;border-radius:8px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}.ekb-upd{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99;background:#14213d;color:#fff;border:0;border-radius:999px;padding:10px 18px;font:inherit;box-shadow:0 4px 14px rgba(0,0,0,.25)}.vtabs{display:flex;gap:4px;flex-wrap:wrap;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--sheet);padding:8px 0;border-bottom:1px solid var(--line);margin-bottom:12px}
-.vtabs button{font-family:var(--f-display);font-weight:600;font-size:1.05rem;letter-spacing:.03em;text-transform:uppercase;border:0;background:var(--chip);color:var(--ink);padding:8px 14px;border-radius:8px;cursor:pointer}
-.vtabs button.on{background:var(--navy);color:var(--sheet)}
-.vban{background:color-mix(in srgb,var(--accent) 16%,var(--sheet));border-left:4px solid var(--accent);padding:10px 12px;border-radius:6px;margin:0 0 12px;font-weight:600}
-.vhead{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-end}
-.vhead h2,.vp{font-family:var(--f-display);font-size:2.1rem;margin:0;color:var(--navy);letter-spacing:.02em}
-.vp{font-size:1.7rem}
-.vhead p,.vsub{margin:2px 0 0;color:var(--muted)}
-.vok{color:var(--ok);font-weight:600}
-.vtimes,.vkeys{display:grid;gap:8px}
-.vtimes{grid-template-columns:repeat(4,minmax(80px,1fr))}
-.vkeys{grid-template-columns:repeat(4,minmax(0,1fr));margin:12px 0}
-@media (max-width:700px){.vkeys{grid-template-columns:repeat(2,minmax(0,1fr))}.vtimes{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.vk{background:var(--chip);border-radius:8px;padding:8px 10px;min-width:0}
-.vk span{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-.vk b{display:block;font-family:var(--f-display);font-size:1.45rem;line-height:1.1}
-.vk small{color:var(--muted);font-size:.78rem}
-.vbody h3{font-family:var(--f-display);font-size:1.15rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:18px 0 6px;border-bottom:1px solid var(--line);padding-bottom:3px}
-.vthreats{margin:0;padding-left:1.4em;display:grid;gap:8px}
-.vthreats li{line-height:1.4}
-.vsrc{color:var(--muted)}
-.vtw{overflow-x:auto;max-width:100%}
-.vt{border-collapse:collapse;width:100%;font-size:.93rem}
-.vt th{text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:2px solid var(--line);padding:6px}
-.vt td{border-bottom:1px solid var(--line);padding:6px;vertical-align:top}
-.vw td:nth-child(1),.vw td:nth-child(2){font-family:var(--f-mono);white-space:nowrap}
-.vfir td{background:color-mix(in srgb,var(--navy) 9%,var(--sheet))}
-.vfx{display:grid;gap:3px;margin-top:4px}
-.vfx span{display:inline-block;min-width:72px;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
-.vcall td{background:color-mix(in srgb,var(--accent) 12%,var(--sheet))}
-.vdone td{opacity:.45}
-.vnext td{outline:2px solid var(--accent);outline-offset:-2px}
-.vtag{background:var(--accent);color:var(--accent-ink);font-size:.7rem;padding:1px 6px;border-radius:4px;font-weight:700}
-.vwarn{color:var(--warn);font-weight:700}.vbad{color:var(--bad);font-weight:700}
-tr[data-w]{cursor:pointer}
-.vato{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
-.vato input{font-family:var(--f-mono);font-size:1.1rem;width:5.5em;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--sheet);color:var(--ink)}
-.vwx{font-family:var(--f-mono);font-size:.85rem;background:var(--code-bg);padding:8px 10px;border-radius:6px;overflow-wrap:anywhere}
-.vn{margin:0;padding-left:1.1em;display:grid;gap:5px;font-size:.9rem}
-.vd{margin:8px 0}.vd summary{cursor:pointer;color:var(--navy);font-weight:600}
-.vfoot{font-size:.75rem;color:var(--muted);border-top:1px solid var(--line);margin-top:18px;padding-top:6px}
-.gwrap{position:relative;background:var(--sheet);border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.gwrap canvas{display:block;width:100%;cursor:grab}
-.gctl{position:absolute;top:8px;right:8px;display:flex;gap:6px;flex-wrap:wrap}
-.gctl button{font:inherit;font-weight:600;border:1px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:8px;padding:6px 10px;min-width:36px;cursor:pointer}
-.gctl button.on{background:var(--navy);color:var(--sheet)}
-.gleg{position:absolute;left:10px;bottom:8px;font-size:.78rem;color:var(--muted);background:color-mix(in srgb,var(--sheet) 80%,transparent);padding:3px 8px;border-radius:6px}
-.gleg span{display:inline-block;width:14px;height:4px;vertical-align:middle;margin-left:6px}
-.gleg .lr{background:var(--accent)}.gleg .lf{background:color-mix(in srgb,var(--navy) 35%,transparent);height:10px}.gleg .la{border:2px solid var(--ink);border-radius:50%;width:8px;height:8px}
-.gfirs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
-.gfirs span{background:var(--chip);border-radius:6px;padding:3px 8px;font-size:.85rem;font-family:var(--f-mono)}
-.vcard{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:var(--sheet)}
-.vcard>summary{cursor:pointer;padding:10px 12px;font-size:1.1rem}
-.vcb{padding:0 14px 12px}
-.vcb h4{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:12px 0 4px;font-size:.95rem}
-.vrul{margin:0;padding-left:1.1em;display:grid;gap:6px;font-size:.93rem;line-height:1.4}
-.vtop{display:inline-block;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;background:var(--chip);border-radius:4px;padding:1px 5px;color:var(--muted)}
-.vmine{background:color-mix(in srgb,var(--accent) 10%,var(--sheet));border-left:4px solid var(--accent);padding:6px 12px;border-radius:6px;margin-top:8px}
-.vmine ul{margin:4px 0;padding-left:1.1em}
-</style></head><body><title>A350 Flight Prep</title>
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>EK Prep</title><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="EK Prep"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="theme-color" content="#14213d"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="icon-192.png"><script>window.EKGEO="libs/";window.EKAPP=true;window.EKVER="20261123-2014";</script><script>(function(){var g="ekprep",a="files";function b(){return new Promise(function(e,n){var t=indexedDB.open(g,1);t.onupgradeneeded=function(){t.result.createObjectStore(a)},t.onsuccess=function(){e(t.result)},t.onerror=function(){n(t.error)}})}function u(e,n){return b().then(function(t){return new Promise(function(r,i){var o=t.transaction(a,e),v=n(o.objectStore(a));o.oncomplete=function(){r(v&&v.result)},o.onerror=function(){i(o.error)},o.onabort=function(){i(o.error||new Error("abort"))}})})}function l(e){return e?e.slice(0,8).arrayBuffer().then(function(n){var t=new DataView(n);if(String.fromCharCode(t.getUint8(0),t.getUint8(1),t.getUint8(2),t.getUint8(3))!=="EKB1")throw new Error("Non \xE8 un file biblioteca EK (.ekb)");var r=t.getUint32(4,!0);return e.slice(8,8+r).text().then(function(i){var o=JSON.parse(i);return{blob:e,dir:o.files,meta:o.meta||{},base:8+r}})}):Promise.resolve(null)}var c=null,s=u("readonly",function(e){return e.get("kb")}).then(l).then(function(e){return c=e,e}).catch(function(){return null});function f(e){return{ok:!1,status:e,json:function(){return Promise.reject(new Error(String(e)))},text:function(){return Promise.reject(new Error(String(e)))}}}window.kbFetch=function(e){return s.then(function(n){if(n){var t=n.dir[e];if(!t)return f(404);var r=n.blob.slice(n.base+t[0],n.base+t[0]+t[1]);return{ok:!0,status:200,json:function(){return r.text().then(JSON.parse)},text:function(){return r.text()}}}return fetch(e).catch(function(){return f(0)})})};function p(e,n){n("Controllo il file\u2026"),l(e).then(function(t){return n("Copio la biblioteca nell\u2019app ("+Math.round(e.size/1e6)+" MB)\u2026"),e.arrayBuffer().then(function(r){var i=new Blob([r],{type:"application/octet-stream"});return u("readwrite",function(o){return o.put(i,"kb")}).then(function(){return t})})}).then(function(t){try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch{}n("Biblioteca caricata ("+(t.meta.built||"")+"). Riavvio\u2026"),setTimeout(function(){location.reload()},700)}).catch(function(t){n("Non riuscito: "+(t&&t.message||t))})}function d(e){var n=document.createElement("input");n.type="file",n.onchange=function(){n.files&&n.files[0]&&p(n.files[0],function(t){e&&(e.textContent=t)})},n.click()}window.EKB={ready:s,chip:function(){return c?"<span>Biblioteca del "+(c.meta.built||"?")+' <a href="#" onclick="EKB.pick(this);return false">aggiorna</a></span>':""},pick:function(e){d(e)},showLoad:function(){var e=document.getElementById("kbstat");if(!(!e||document.getElementById("ekb-load"))){var n=document.createElement("div");n.className="ekb-bar",n.innerHTML='<button id="ekb-load">Carica la biblioteca (EK_biblioteca.ekb)</button><span id="ekb-msg">Una volta sola: scegli il file in File sull\u2019iPad. Resta nell\u2019app, anche offline.</span>',e.parentNode.insertBefore(n,e.nextSibling),document.getElementById("ekb-load").onclick=function(){d(document.getElementById("ekb-msg"))}}}},("serviceWorker"in navigator&&location.protocol==="https:"||location.hostname==="localhost")&&window.addEventListener("load",function(){if(navigator.serviceWorker){navigator.serviceWorker.register("sw.js").then(function(n){function t(r){if(!(!r||document.getElementById("ekb-upd"))){var i=document.createElement("button");i.id="ekb-upd",i.className="ekb-upd",i.textContent="Nuova versione pronta \u2013 tocca per aggiornare",i.onclick=function(){r.postMessage("skipWaiting")},document.body.appendChild(i)}}n.waiting&&navigator.serviceWorker.controller&&t(n.waiting),n.addEventListener("updatefound",function(){var r=n.installing;r&&r.addEventListener("statechange",function(){r.state==="installed"&&navigator.serviceWorker.controller&&t(r)})})}).catch(function(){});var e=!1;navigator.serviceWorker.addEventListener("controllerchange",function(){e||(e=!0,location.reload())})}})})();
+</script><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;-webkit-text-size-adjust:100%}img{max-width:100%}[hidden]{display:none!important}.ekb-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}.ekb-bar button{font:inherit;font-size:.85rem;padding:6px 12px;border-radius:8px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}.ekb-upd{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99;background:#14213d;color:#fff;border:0;border-radius:999px;padding:10px 18px;font:inherit;box-shadow:0 4px 14px rgba(0,0,0,.25)}</style></head><body><title>A350 Flight Prep</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 /* Layout: an EFB-style working sheet — header strip, tabbed tools, one wide output column like a flight log. */
@@ -208,6 +149,46 @@ details summary{cursor:pointer;color:var(--muted);font-size:.9rem}
 .hit{border-bottom:1px solid var(--line);padding:8px 0;display:flex;flex-direction:column;gap:2px;min-width:0}
 .hit p{margin:0;font-size:.92rem;color:var(--muted);overflow-wrap:anywhere}
 mark{background:color-mix(in srgb,var(--accent) 35%,transparent);color:inherit;border-radius:2px}
+
+/* ---- briefing layout v5: section cards, section bar, status pills ---- */
+.wrap{max-width:1080px}
+.out .bhead h1{font-size:2rem;line-height:1.15;margin:.2em 0 .3em}
+.out .bhead>p:first-of-type em,.out .bhead>p em{color:var(--muted)}
+.secnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:6px;overflow-x:auto;padding:8px 2px;margin:4px 0 10px;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);scrollbar-width:none}
+.secnav::-webkit-scrollbar{display:none}
+.secnav button{flex:0 0 auto;font:600 .85rem var(--f-body);border:1px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:99px;padding:5px 12px;cursor:pointer;white-space:nowrap}
+.secnav button:hover{border-color:var(--accent)}
+.out .bsec{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:4px 18px 14px;margin:0 0 14px;scroll-margin-top:56px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.out .bsec>h2{display:flex;align-items:center;gap:10px;border-bottom:0;margin:.7em 0 .5em;font-size:1.45rem}
+.bnum{flex:0 0 auto;display:inline-grid;place-items:center;min-width:1.7em;height:1.7em;border-radius:8px;background:var(--navy);color:var(--sheet);font-size:.95rem;font-family:var(--f-mono);font-weight:700}
+.out .bsec.glance{border:1px solid color-mix(in srgb,var(--accent) 55%,var(--line));background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--sheet)),var(--sheet) 70%)}
+.out .bsec.glance .bnum{background:var(--accent);color:var(--accent-ink)}
+.out .bsec.glance li{margin:.35em 0}
+.out .bsec p,.out .bsec li{max-width:80ch}
+.out .bsec .tbl{border:1px solid var(--line);border-radius:10px;overflow-x:auto;margin:10px 0}
+.out .bsec table{border:0;min-width:100%;font-size:.92rem}
+.out .bsec th,.out .bsec td{border:0;border-bottom:1px solid var(--line);padding:8px 10px}
+.out .bsec tr:last-child td{border-bottom:0}
+.out .bsec thead th{position:sticky;top:0;background:var(--chip);white-space:normal;min-width:5em}
+.out .bsec tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--chip) 45%,transparent)}
+.out .bsec td{min-width:5em;overflow-wrap:break-word}
+.out .bsec td:first-child{font-weight:600;min-width:7em}
+.out .bsec td:last-child{min-width:9em}
+.pill{display:inline-block;padding:1px 9px;border-radius:99px;font-weight:700;font-size:.86em;line-height:1.5}
+.pill.bad{background:color-mix(in srgb,var(--bad) 18%,transparent);color:var(--bad)}
+.pill.warn{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn)}
+.pill.ok{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.out .bsec.charts .figs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.savebar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;background:var(--chip);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:0 0 12px}
+.saved{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;margin-top:4px}
+.saved .label{width:100%;text-align:center}
+.sv{display:inline-flex;border:1px solid var(--line);border-radius:99px;overflow:hidden;background:var(--sheet)}
+.sv button{border:0;background:none;color:var(--ink);font:600 .85rem var(--f-body);padding:6px 10px;cursor:pointer}
+.sv .svopen small{font-weight:400;color:var(--muted);margin-left:6px;font-family:var(--f-mono)}
+.sv .svdel{color:var(--muted);border-left:1px solid var(--line)}
+.mapwrap{border-radius:14px}
+@media (max-width:620px){.out .bsec{padding:2px 12px 10px}.out .bhead h1{font-size:1.55rem}}
 /* fdp */
 .fdpgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;min-width:0}
 .frow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;justify-content:space-between}
@@ -275,16 +256,17 @@ mark{background:color-mix(in srgb,var(--accent) 35%,transparent);color:inherit;b
   <section class="sheet" id="pane-brief">
     <div class="drop" id="drop">
       <p class="label">Carica l'OFP</p>
-      <p>Trascina qui il PDF dell'OFP oppure sceglilo dai file dell'iPad.</p>
+      <p>Trascina qui il PDF dell'OFP, oppure un briefing salvato (<b>…_brief.json</b>) per aprirlo anche offline.</p>
       <div class="row">
         <label class="btn" for="ofp">Scegli PDF</label>
-        <input type="file" id="ofp" accept="application/pdf,.pdf" hidden>
+        <input type="file" id="ofp" accept="application/pdf,.pdf,application/json,.json" hidden>
         <select class="btn" id="len" aria-label="Lunghezza del briefing"><option value="short" selected>Breve</option><option value="full">Completo</option></select>
         <label class="btn" for="prepf" id="preplbl" hidden>File di preparazione</label><input type="file" id="prepf" hidden>
         <button class="btn primary" id="go" disabled>Prepara il volo</button>
         <button class="btn" id="stop" hidden>Stop</button>
       </div>
       <div class="fileinfo" id="fileinfo">Nessun file selezionato</div>
+      <div class="saved" id="saved" hidden></div>
     </div>
     <div class="steps" id="steps">
       <span data-s="read">1 · Lettura OFP</span>
@@ -459,7 +441,7 @@ mark{background:color-mix(in srgb,var(--accent) 35%,transparent);color:inherit;b
 
 <script src="libs/pdf.js"></script><script src="libs/pdf.worker.js"></script><script>pdfjsLib.GlobalWorkerOptions.workerSrc = "libs/pdf.worker.js";
 </script>
-<script src="libs/marked.umd.js"></script><script src="libs/fp_ofp.js"></script><script src="volo.js"></script><script src="volo_geo.js"></script>
+<script src="libs/marked.umd.js"></script><script src="libs/fp_ofp.js"></script>
 <script src="libs/d3.min.js"></script>
 <script src="libs/topojson.js"></script>
 <script src="libs/datamaps.world.min.js"></script>
@@ -1255,7 +1237,7 @@ async function loadKB() {
     } catch (e) {
       console.warn("study", e);
     }
-    $("#kbstat").innerHTML = KB.index.docs.map((d) => `<span>${esc(d.short || d.name)} \xB7 ${esc(d.rev || "")}</span>`).join("") + `<span>${KB.index.sections.length} sezioni</span>` + (window.EKAPP ? `<span>App offline · versione 23/11 14:59</span>` : "") + (window.EKB ? EKB.chip() : "");
+    $("#kbstat").innerHTML = KB.index.docs.map((d) => `<span>${esc(d.short || d.name)} \xB7 ${esc(d.rev || "")}</span>`).join("") + `<span>${KB.index.sections.length} sezioni</span>` + (window.EKAPP ? `<span>App offline · versione 23/11 20:14</span>` : "") + (window.EKB ? EKB.chip() : "");
   } catch (e) {
     $("#kbstat").innerHTML = `<span class="err">Biblioteca non caricata</span>`;
     EKB.showLoad();
@@ -1358,9 +1340,269 @@ LENGTH (strict): chart list as ONE line ("p.22 SIGWX 18Z FL250-630; \u2026"), ta
 }
 function chartBlock(text2) {
   const d = document.createElement("div");
+  d.className = "chartsec";
   d.innerHTML = `<h2>Weather charts from the OFP</h2><div class="figs">${OFP.charts.map((c, i) => `<button class="fig" data-ci="${i}" aria-label="Carta meteo OFP pagina ${c.page}"><img src="${c.url}" alt=""><span>OFP p.${c.page}</span></button>`).join("")}</div>` + (text2 ? `<details class="wxd"><summary>Chart analysis (detail)</summary><div>${md(text2)}</div></details>` : "");
   d.querySelectorAll("[data-ci]").forEach((b) => b.addEventListener("click", () => openFig({ chart: OFP.charts[+b.dataset.ci] })));
   return d;
+}
+const BRIEFDB = {
+  open() {
+    return new Promise((res, rej) => {
+      try {
+        const r = indexedDB.open("ekprep-briefs", 1);
+        r.onupgradeneeded = () => r.result.createObjectStore("b");
+        r.onsuccess = () => res(r.result);
+        r.onerror = () => rej(r.error);
+      } catch (e) {
+        rej(e);
+      }
+    });
+  },
+  async put(k, v2) {
+    try {
+      const db = await this.open();
+      await new Promise((r) => {
+        const t = db.transaction("b", "readwrite");
+        t.objectStore("b").put(v2, k);
+        t.oncomplete = r;
+        t.onerror = r;
+      });
+    } catch (e) {
+    }
+  },
+  async all() {
+    try {
+      const db = await this.open();
+      return await new Promise((r) => {
+        const out = [];
+        const q = db.transaction("b").objectStore("b").openCursor();
+        q.onsuccess = () => {
+          const c = q.result;
+          if (c) {
+            out.push([c.key, c.value]);
+            c.continue();
+          } else r(out);
+        };
+        q.onerror = () => r(out);
+      });
+    } catch (e) {
+      return [];
+    }
+  },
+  async del(k) {
+    try {
+      const db = await this.open();
+      await new Promise((r) => {
+        const t = db.transaction("b", "readwrite");
+        t.objectStore("b").delete(k);
+        t.oncomplete = r;
+        t.onerror = r;
+      });
+    } catch (e) {
+    }
+  }
+};
+async function toDataURL(url, max = 1500, q = 0.74) {
+  const img = new Image();
+  img.src = url;
+  await img.decode();
+  const k = Math.min(1, max / img.naturalWidth);
+  const c = document.createElement("canvas");
+  c.width = Math.round(img.naturalWidth * k);
+  c.height = Math.round(img.naturalHeight * k);
+  c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+  return c.toDataURL("image/jpeg", q);
+}
+async function buildPackage() {
+  var _a, _b, _c;
+  const clone = $("#out").cloneNode(true);
+  clone.querySelectorAll(".savebar,.secnav,.chartsec,.thinking").forEach((x) => x.remove());
+  clone.querySelectorAll("section.bsec").forEach((sec) => {
+    const h = sec.querySelector("h2 .bnum");
+    if (h) h.replaceWith(h.textContent + ". ");
+    sec.replaceWith(...sec.childNodes);
+  });
+  clone.querySelectorAll(".bhead").forEach((x) => x.replaceWith(...x.childNodes));
+  const charts = [];
+  for (const c of OFP.charts || []) {
+    try {
+      charts.push({ page: c.page, url: c.url.startsWith("data:") ? c.url : await toDataURL(c.url) });
+    } catch (e) {
+    }
+  }
+  const info = OFP.info || parseOfp(OFP.text || "");
+  return {
+    schema: "ekbrief.v1",
+    built: (/* @__PURE__ */ new Date()).toISOString(),
+    name: OFP.name,
+    title: (((_a = clone.querySelector("h1")) == null ? void 0 : _a.textContent) || `${info.flight || ""} ${info.dep || ""}-${info.dest || ""}`).trim(),
+    info,
+    html: clone.innerHTML,
+    charts,
+    wx: OFP.wx || "",
+    map: OFP.map || null,
+    apt: OFP.apt || {},
+    edto: window.Globe3D && OFP.text ? Globe3D.edtoMin(OFP.text) : (_b = OFP.edto) != null ? _b : null,
+    firs: window.Globe3D && OFP.text ? Globe3D.firsCrossed(OFP.text) : OFP.firsX || [],
+    lib: (((_c = KB.index) == null ? void 0 : _c.docs) || []).map((d) => `${d.short || d.id} ${d.rev || ""}`.trim())
+  };
+}
+function pkgName(p) {
+  const i = p.info || {};
+  return `${i.flight || "EK"}_${i.dep || ""}-${i.dest || ""}_${(i.date || p.built.slice(0, 10)).replace(/\W/g, "")}_brief.json`;
+}
+async function saveBrief(btn) {
+  var _a;
+  const note = $("#savenote");
+  btn.disabled = true;
+  note.textContent = "Preparo il file\u2026";
+  try {
+    const p = await buildPackage();
+    const name = pkgName(p);
+    const data = new Blob([JSON.stringify(p)], { type: "application/json" });
+    await BRIEFDB.put(name, p);
+    listSaved();
+    const dl = ((_a = window.claude) == null ? void 0 : _a.use) ? await window.claude.use("downloads").catch(() => null) : null;
+    if (dl) {
+      try {
+        await dl.save({ filename: name, data });
+        note.textContent = `Salvato: ${name} (${(data.size / 1e6).toFixed(1)} MB). Mettilo in File sull'iPad e aprilo nell'app EK Prep.`;
+      } catch (e) {
+        note.textContent = (e == null ? void 0 : e.code) === "declined" ? "Salvataggio annullato." : `Non salvato (${(e == null ? void 0 : e.code) || e}).`;
+      }
+    } else {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(data);
+      a.download = name;
+      document.body.append(a);
+      a.click();
+      a.remove();
+      note.textContent = `Salvato: ${name} \u2013 resta anche in questa app (Briefing salvati).`;
+    }
+  } catch (e) {
+    note.textContent = "Errore: " + (e.message || e);
+  }
+  btn.disabled = false;
+}
+function addSaveBar(out) {
+  if (out.querySelector(".savebar")) return;
+  const d = document.createElement("div");
+  d.className = "savebar";
+  d.innerHTML = `<button class="btn primary sm" type="button">Salva per l'iPad (offline)</button><span class="note" id="savenote">Un file con briefing, globo e carte: aprilo nell'app EK Prep anche senza rete.</span>`;
+  d.querySelector("button").addEventListener("click", (e) => saveBrief(e.currentTarget));
+  out.prepend(d);
+}
+function renderPackage(p) {
+  var _a, _b, _c;
+  if ((p == null ? void 0 : p.schema) !== "ekbrief.v1") throw new Error("Questo file non \xE8 un briefing EK Prep.");
+  OFP = { name: p.name, text: "", pages: 0, charts: p.charts || [], map: p.map, apt: p.apt || {}, info: p.info, wx: p.wx, edto: p.edto, firsX: p.firs, pkg: true };
+  $("#steps").hidden = true;
+  $("#fofp").hidden = false;
+  $("#go").disabled = true;
+  const out = $("#out");
+  out.innerHTML = p.html;
+  delete out.dataset.pretty;
+  if (OFP.charts.length) out.appendChild(chartBlock(p.wx || ""));
+  if (p.map && (((_a = p.map.route) == null ? void 0 : _a.length) || ((_b = p.map.points) == null ? void 0 : _b.length))) {
+    $("#mapcard").hidden = false;
+    try {
+      if (window.Globe3D) Globe3D.globe($("#map"), p.map, p.apt || {}, { edto: p.edto, firs: p.firs || [], base: window.EKGEO || "" });
+      else RouteMap.draw($("#map"), p.map, p.apt || {});
+    } catch (e) {
+      console.warn(e);
+    }
+    $("#firs").innerHTML = (p.map.firs || []).map((f) => `<span>${esc(f.code)} ${esc(f.name)}</span>`).join("");
+  } else $("#mapcard").hidden = true;
+  prettify(out);
+  linkIds(out);
+  $("#fileinfo").textContent = `Briefing salvato \xB7 ${p.title} \xB7 preparato il ${p.built.slice(0, 16).replace("T", " ")}Z` + (((_c = p.lib) == null ? void 0 : _c.length) ? ` \xB7 manuali: ${p.lib.slice(0, 4).join(", ")}\u2026` : "");
+}
+async function openPackageFile(f) {
+  const p = JSON.parse(await f.text());
+  renderPackage(p);
+  await BRIEFDB.put(pkgName(p), p);
+  listSaved();
+}
+async function listSaved() {
+  const el = $("#saved");
+  if (!el) return;
+  const all = (await BRIEFDB.all()).sort((a, b) => String(b[1].built).localeCompare(String(a[1].built))).slice(0, 8);
+  if (!all.length) {
+    el.hidden = true;
+    return;
+  }
+  el.hidden = false;
+  el.innerHTML = `<span class="label">Briefing salvati</span>` + all.map(([k, p]) => {
+    var _a, _b, _c, _d;
+    return `<span class="sv"><button type="button" class="svopen" data-k="${esc(k)}">${esc((((_a = p.info) == null ? void 0 : _a.flight) || "") + " " + (((_b = p.info) == null ? void 0 : _b.dep) || "") + "\u2192" + (((_c = p.info) == null ? void 0 : _c.dest) || ""))}<small>${esc(((_d = p.info) == null ? void 0 : _d.date) || p.built.slice(0, 10))}</small></button><button type="button" class="svdel" data-k="${esc(k)}" aria-label="Elimina">\xD7</button></span>`;
+  }).join("");
+  el.querySelectorAll(".svopen").forEach((b) => b.addEventListener("click", () => {
+    var _a;
+    const p = (_a = all.find((x) => x[0] === b.dataset.k)) == null ? void 0 : _a[1];
+    if (p) renderPackage(p);
+  }));
+  el.querySelectorAll(".svdel").forEach((b) => b.addEventListener("click", async () => {
+    await BRIEFDB.del(b.dataset.k);
+    listSaved();
+  }));
+}
+function prettify(out) {
+  if (!out || out.dataset.pretty) return;
+  const head = document.createElement("div");
+  head.className = "bhead";
+  const secs = [];
+  let cur = null;
+  for (const n of [...out.childNodes]) {
+    if (n.nodeType === 1 && (n.tagName === "H2" || n.classList.contains("chartsec"))) {
+      cur = document.createElement("section");
+      cur.className = "bsec";
+      secs.push(cur);
+    }
+    (cur || head).appendChild(n);
+  }
+  if (secs.length < 2) {
+    out.prepend(head);
+    return;
+  }
+  out.innerHTML = "";
+  out.append(head);
+  const nav = document.createElement("div");
+  nav.className = "secnav";
+  nav.setAttribute("role", "navigation");
+  secs.forEach((s, i) => {
+    const h = s.querySelector("h2");
+    const m = h.textContent.match(/^\s*(\d+)\.\s*(.*)$/);
+    const title = m ? m[2] : h.textContent;
+    if (m) h.innerHTML = `<span class="bnum">${m[1]}</span>${esc(title)}`;
+    if (/^0$/.test((m == null ? void 0 : m[1]) || "") || /at a glance|in breve/i.test(title)) s.classList.add("glance");
+    if (/weather charts/i.test(title)) s.classList.add("charts");
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = (m ? m[1] + " " : "") + title.replace(/\s*[—–(:].*$/, "").replace(/\s+from the OFP$/i, "").slice(0, 26);
+    b.addEventListener("click", () => s.scrollIntoView({ behavior: "smooth", block: "start" }));
+    nav.append(b);
+  });
+  out.append(nav, ...secs);
+  out.querySelectorAll("td").forEach((td) => {
+    const t = td.textContent.trim();
+    const lead = td.firstElementChild && /^(B|STRONG)$/.test(td.firstElementChild.tagName) && td.textContent.trim().startsWith(td.firstElementChild.textContent.trim()) ? td.firstElementChild : null;
+    if (/^(Affected|Not affected|Not applicable|Closed|Open|OK|Good|Marginal|Below minima)\b/i.test(t)) {
+      const k = /^(Affected|Closed|Below minima)/i.test(t) ? "bad" : /^Marginal/i.test(t) ? "warn" : "ok";
+      if (lead) {
+        lead.classList.add("pill", k);
+      } else if (t.length < 30) {
+        td.innerHTML = `<span class="pill ${k}">${esc(t)}</span>`;
+      }
+    }
+  });
+  out.dataset.pretty = "1";
+}
+async function finishBrief() {
+  const out = $("#out");
+  if (!out.querySelector("h2")) return;
+  prettify(out);
+  linkIds(out);
+  addSaveBar(out);
 }
 async function readPdf(file) {
   const pdfjs = window.pdfjsLib;
@@ -1583,10 +1825,20 @@ Codes: ${codes.join(", ")}`,
 }
 async function onFile(f) {
   if (!f) return;
-  if (!/pdf$/i.test(f.type) && !/\.pdf$/i.test(f.name)) {
-    $("#fileinfo").innerHTML = `<span class="err">Il file deve essere un PDF.</span>`;
+  if (/\.json$/i.test(f.name) || /json/.test(f.type)) {
+    try {
+      await openPackageFile(f);
+    } catch (e) {
+      $("#fileinfo").innerHTML = `<span class="err">${esc(e.message || e)}</span>`;
+    }
     return;
   }
+  if (!/pdf$/i.test(f.type) && !/\.pdf$/i.test(f.name)) {
+    $("#fileinfo").innerHTML = `<span class="err">Il file deve essere un PDF dell'OFP o un briefing salvato (.json).</span>`;
+    return;
+  }
+  $("#steps").hidden = false;
+  delete $("#out").dataset.pretty;
   resetSteps();
   step("read", "on");
   $("#fileinfo").textContent = "Lettura di " + f.name + "\u2026";
@@ -1601,14 +1853,6 @@ async function onFile(f) {
     $("#fileinfo").textContent = `${f.name} \xB7 ${r.numPages} pagine \xB7 ${Math.round(txt.length / 1e3)}k caratteri` + (r.charts.length ? ` \xB7 ${r.charts.length} carte meteo` : "");
     step("read", "done");
     $("#go").disabled = !sampleFn && !window.EKAPP;
-    if (window.EKAPP && window.VOLO) {
-      try {
-        VOLO.fromItems(r.items);
-        $("#fileinfo").textContent += ` \xB7 ${VOLO.O.flt} ${VOLO.O.dep_iata}-${VOLO.O.dest_iata} ${VOLO.O.date}` + (VOLO.P ? " \xB7 file di preparazione caricato" : "");
-      } catch (e) {
-        console.warn("volo", e);
-      }
-    }
     showMap();
   } catch (e) {
     step("read");
@@ -1721,12 +1965,8 @@ async function gatherExcerpts(info, budget) {
 async function runBrief() {
   var _a;
   if (!sampleFn && window.EKAPP) {
-    if (window.VOLO && VOLO.O) {
-      $("#steps").hidden = true;
-      VOLO.render();
-      return;
-    }
-    return offlineBrief();
+    await offlineBrief();
+    return finishBrief();
   }
   if (!OFP || !sampleFn) return;
   briefCtl = new AbortController();
@@ -2000,7 +2240,11 @@ ${res.text}`,
     $("#stop").hidden = true;
   }
 }
-$("#go").addEventListener("click", runBrief);
+$("#go").addEventListener("click", async () => {
+  await runBrief();
+  finishBrief();
+});
+listSaved();
 $("#stop").addEventListener("click", () => briefCtl == null ? void 0 : briefCtl.abort());
 const IMG = { idx: null, files: /* @__PURE__ */ new Map() };
 (async () => {
